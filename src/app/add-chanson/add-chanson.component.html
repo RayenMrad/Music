@@ -1,0 +1,82 @@
+<div class="container">
+  <div>
+    <h2>Ajouter une chanson :</h2>
+  </div>
+  <form>
+    <div class="col-sm-2 col-md-2 col-lg-2">
+      <label>ID chanson</label>
+      <input
+        type="text"
+        [(ngModel)]="newchanson.idChanson"
+        name="idChanson"
+        class="form-control"
+      />
+    </div>
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Nom chanson</label>
+      <input
+        type="text"
+        [(ngModel)]="newchanson.nomChanson"
+        name="nomchanson"
+        class="form-control"
+      />
+    </div>
+    <div class="col-sm-2 col-md-2 col-lg-2">
+      <label>Nom Artiste</label>
+      <input
+        type="text"
+        [(ngModel)]="newchanson.nomArtiste"
+        name="nomArtiste"
+        class="form-control"
+      />
+    </div>
+    <div class="col-sm-2 col-md-2 col-lg-2">
+      <label>Duree</label>
+      <input
+        type="text"
+        [(ngModel)]="newchanson.duree"
+        name="duree"
+        class="form-control"
+      />
+    </div>
+    <div class="col-sm-2 col-md-2 col-lg-2">
+      <label>Vues</label>
+      <input
+        type="text"
+        [(ngModel)]="newchanson.vues"
+        name="vues"
+        class="form-control"
+      />
+    </div>
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Date Sortie</label>
+      <input
+        type="date"
+        [(ngModel)]="newchanson.dateSortie"
+        name="dateSortie"
+        class="form-control"
+      />
+    </div>
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Genre</label>
+      <select
+        class="form-control form-control-lg"
+        id="idCat"
+        name="idCat"
+        [(ngModel)]="newIdGen"
+      >
+        <option *ngFor="let gen of genres" [value]="gen.idGen">
+          {{ gen.nomGen }}
+        </option>
+      </select>
+    </div>
+    <div class="mt-2">
+      <button type="submit" (click)="addchanson()" class="btn btn-success">
+        Ajouter
+      </button>
+      <div>
+        <h3>{{ message }}</h3>
+      </div>
+    </div>
+  </form>
+</div>

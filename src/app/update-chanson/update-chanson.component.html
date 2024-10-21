@@ -1,0 +1,84 @@
+<div class="container">
+  <div>
+    <h2>Modifier une chanson :</h2>
+  </div>
+  <form>
+    <div class="col-sm-2 col-md-2 col-lg-2">
+      <label>ID chanson</label>
+      <input
+        readonly
+        type="text"
+        [(ngModel)]="currentChanson.idChanson"
+        name="idChanson"
+        class="form-control"
+      />
+    </div>
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Nom chanson</label>
+      <input
+        type="text"
+        [(ngModel)]="currentChanson.nomChanson"
+        name="nomchanson"
+        class="form-control"
+      />
+    </div>
+    <div class="col-sm-2 col-md-2 col-lg-2">
+      <label>Nom Artiste</label>
+      <input
+        type="text"
+        [(ngModel)]="currentChanson.nomArtiste"
+        name="nomArtiste"
+        class="form-control"
+      />
+    </div>
+
+    <div class="col-sm-2 col-md-2 col-lg-2">
+      <label>Duree</label>
+      <input
+        type="text"
+        [(ngModel)]="currentChanson.duree"
+        name="duree"
+        class="form-control"
+      />
+    </div>
+    <div class="col-sm-2 col-md-2 col-lg-2">
+      <label>Vues</label>
+      <input
+        type="text"
+        [(ngModel)]="currentChanson.vues"
+        name="vues"
+        class="form-control"
+      />
+    </div>
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Date Sortie</label>
+      <input
+        type="date"
+        [(ngModel)]="currentChanson.dateSortie"
+        name="dateSortie"
+        class="form-control"
+      />
+    </div>
+
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Genre</label>
+
+      <select
+        class="form-control form-control-lg"
+        id="idCat"
+        name="idCat"
+        [(ngModel)]="updatedGenId"
+      >
+        <option *ngFor="let gen of genres" [value]="gen.idGen">
+          {{ gen.nomGen }}
+        </option>
+      </select>
+    </div>
+
+    <div class="mt-2">
+      <button type="submit" (click)="updateChanson()" class="btn btn-success">
+        Modifier
+      </button>
+    </div>
+  </form>
+</div>
