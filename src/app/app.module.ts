@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   BrowserModule,
   provideClientHydration,
@@ -13,10 +13,20 @@ import { UpdateChansonComponent } from './update-chanson/update-chanson.componen
 import { RechercheParGenreComponent } from './recherche-par-genre/recherche-par-genre.component';
 import { RechercheParNomComponent } from './recherche-par-nom/recherche-par-nom.component';
 import { SearchFilterPipe } from './search-filter.pipe';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
-  declarations: [AppComponent, ChansonsComponent, AddChansonComponent, UpdateChansonComponent, RechercheParGenreComponent, RechercheParNomComponent, SearchFilterPipe],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
+  declarations: [
+    AppComponent,
+    ChansonsComponent,
+    AddChansonComponent,
+    UpdateChansonComponent,
+    RechercheParGenreComponent,
+    RechercheParNomComponent,
+    SearchFilterPipe,
+    RegisterComponent,
+  ],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule],
   providers: [provideClientHydration()],
   bootstrap: [AppComponent],
 })

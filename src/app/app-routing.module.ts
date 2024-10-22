@@ -5,6 +5,7 @@ import { AddChansonComponent } from './add-chanson/add-chanson.component';
 import { UpdateChansonComponent } from './update-chanson/update-chanson.component';
 import { RechercheParGenreComponent } from './recherche-par-genre/recherche-par-genre.component';
 import { RechercheParNomComponent } from './recherche-par-nom/recherche-par-nom.component';
+import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
   { path: 'chansons', component: ChansonsComponent },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'updateChanson/:id', component: UpdateChansonComponent },
   { path: 'rechercheParGenre', component: RechercheParGenreComponent },
   { path: 'rechercheParNom', component: RechercheParNomComponent },
+  { path: 'register', component: RegisterComponent },
 ];
 
 @NgModule({

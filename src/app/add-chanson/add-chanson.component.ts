@@ -3,6 +3,8 @@ import { chanson } from '../model/chanson.model';
 import { chansonService } from '../services/chanson.service';
 import { Router } from '@angular/router';
 import { Genre } from '../model/genre.model';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { User } from '../model/user.model';
 
 @Component({
   selector: 'app-add-chanson',
@@ -16,11 +18,27 @@ export class AddChansonComponent implements OnInit {
 
   newIdGen!: number;
   newGenre!: Genre;
+  myForm!: FormGroup;
+  public user = new User();
 
-  constructor(private chansonService: chansonService, private router: Router) {}
+  constructor(
+    private chansonService: chansonService,
+    private router: Router,
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.genres = this.chansonService.listeGenres();
+    this.myForm = this.formBuilder.group({
+      idChanson: ['', [Validators.required]],
+      nomChanson: ['', [Validators.required]],
+      nomArtiste: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      duree: ['', [Validators.required]],
+      vues: ['', [Validators.required]],
+      dateSortie: ['', [Validators.required]],
+      idGen: [this.newGenre!],
+    });
   }
 
   addchanson() {
@@ -31,5 +49,9 @@ export class AddChansonComponent implements OnInit {
     //this.message =
     // 'chanson ' + this.newchanson.nomChanson + ' ajouté avec succès !'; // Added spaces for readability
     this.router.navigate(['chansons']);
+  }
+
+  OnRegister() {
+    console.log(this.user);
   }
 }

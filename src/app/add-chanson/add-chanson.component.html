@@ -2,16 +2,25 @@
   <div>
     <h2>Ajouter une chanson :</h2>
   </div>
-  <form>
-    <div class="col-sm-2 col-md-2 col-lg-2">
-      <label>ID chanson</label>
+  <form [formGroup]="myForm">
+    <div>
       <input
         type="text"
-        [(ngModel)]="newchanson.idChanson"
         name="idChanson"
         class="form-control"
+        formControlName="idChanson"
+        [(ngModel)]="newchanson.idChanson"
       />
     </div>
+    <span
+      *ngIf="
+        myForm.controls['idChanson'].hasError('required') &&
+        myForm.controls['idChanson'].touched
+      "
+      class="text-danger"
+    >
+      id chanson est obligatoire
+    </span>
     <div class="col-sm-4 col-md-4 col-lg-4">
       <label>Nom chanson</label>
       <input
@@ -19,8 +28,18 @@
         [(ngModel)]="newchanson.nomChanson"
         name="nomchanson"
         class="form-control"
+        formControlName="nomChanson"
       />
     </div>
+    <span
+      *ngIf="
+        myForm.controls['nomChanson'].hasError('required') &&
+        myForm.controls['nomChanson'].touched
+      "
+      class="text-danger"
+    >
+      Nom chanson est obligatoire
+    </span>
     <div class="col-sm-2 col-md-2 col-lg-2">
       <label>Nom Artiste</label>
       <input
@@ -28,8 +47,46 @@
         [(ngModel)]="newchanson.nomArtiste"
         name="nomArtiste"
         class="form-control"
+        formControlName="nomArtiste"
       />
     </div>
+    <span
+      *ngIf="
+        myForm.controls['nomArtiste'].hasError('required') &&
+        myForm.controls['nomArtiste'].touched
+      "
+      class="text-danger"
+    >
+      Nom Artiste est obligatoire
+    </span>
+    <div class="form-group">
+      <label>email :</label>
+      <input
+        type="text"
+        name="email"
+        class="form-control"
+        formControlName="email"
+        [(ngModel)]="user.email"
+      />
+    </div>
+    <span
+      *ngIf="
+        myForm.controls['email'].hasError('required') &&
+        myForm.controls['email'].touched
+      "
+      class="text-danger"
+    >
+      email est obligatoire
+    </span>
+    <span
+      *ngIf="
+        myForm.controls['email'].hasError('email') &&
+        myForm.controls['email'].touched
+      "
+      class="text-danger"
+    >
+      email non valide
+    </span>
     <div class="col-sm-2 col-md-2 col-lg-2">
       <label>Duree</label>
       <input
@@ -37,8 +94,18 @@
         [(ngModel)]="newchanson.duree"
         name="duree"
         class="form-control"
+        formControlName="duree"
       />
     </div>
+    <span
+      *ngIf="
+        myForm.controls['duree'].hasError('required') &&
+        myForm.controls['duree'].touched
+      "
+      class="text-danger"
+    >
+      Duree est obligatoire
+    </span>
     <div class="col-sm-2 col-md-2 col-lg-2">
       <label>Vues</label>
       <input
@@ -46,8 +113,18 @@
         [(ngModel)]="newchanson.vues"
         name="vues"
         class="form-control"
+        formControlName="vues"
       />
     </div>
+    <span
+      *ngIf="
+        myForm.controls['vues'].hasError('required') &&
+        myForm.controls['vues'].touched
+      "
+      class="text-danger"
+    >
+      nombre des vues est obligatoire
+    </span>
     <div class="col-sm-4 col-md-4 col-lg-4">
       <label>Date Sortie</label>
       <input
@@ -55,21 +132,33 @@
         [(ngModel)]="newchanson.dateSortie"
         name="dateSortie"
         class="form-control"
+        formControlName="dateSortie"
       />
     </div>
+    <span
+      *ngIf="
+        myForm.controls['dateSortie'].hasError('required') &&
+        myForm.controls['dateSortie'].touched
+      "
+      class="text-danger"
+    >
+      La date du Sortie est obligatoire
+    </span>
     <div class="col-sm-4 col-md-4 col-lg-4">
       <label>Genre</label>
       <select
         class="form-control form-control-lg"
-        id="idCat"
-        name="idCat"
+        id="idGen"
+        name="idGen"
         [(ngModel)]="newIdGen"
+        formControlName="idGen"
       >
         <option *ngFor="let gen of genres" [value]="gen.idGen">
           {{ gen.nomGen }}
         </option>
       </select>
     </div>
+
     <div class="mt-2">
       <button type="submit" (click)="addchanson()" class="btn btn-success">
         Ajouter

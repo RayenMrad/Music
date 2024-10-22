@@ -1,8 +1,8 @@
-<div class="container">
+<div class="container" *ngIf="currentChanson">
   <div>
     <h2>Modifier une chanson :</h2>
   </div>
-  <form>
+  <form (ngSubmit)="updateChanson()" [formGroup]="myForm">
     <div class="col-sm-2 col-md-2 col-lg-2">
       <label>ID chanson</label>
       <input
@@ -10,6 +10,7 @@
         type="text"
         [(ngModel)]="currentChanson.idChanson"
         name="idChanson"
+        formControlName="idChanson"
         class="form-control"
       />
     </div>
@@ -19,6 +20,7 @@
         type="text"
         [(ngModel)]="currentChanson.nomChanson"
         name="nomchanson"
+        formControlName="nomChanson"
         class="form-control"
       />
     </div>
@@ -28,10 +30,38 @@
         type="text"
         [(ngModel)]="currentChanson.nomArtiste"
         name="nomArtiste"
+        formControlName="nomArtiste"
         class="form-control"
       />
     </div>
-
+    <div class="form-group">
+      <label>email :</label>
+      <input
+        type="text"
+        name="email"
+        class="form-control"
+        formControlName="email"
+        [(ngModel)]="user.email"
+      />
+    </div>
+    <span
+      *ngIf="
+        myForm.controls['email'].hasError('required') &&
+        myForm.controls['email'].touched
+      "
+      class="text-danger"
+    >
+      email est obligatoire
+    </span>
+    <span
+      *ngIf="
+        myForm.controls['email'].hasError('email') &&
+        myForm.controls['email'].touched
+      "
+      class="text-danger"
+    >
+      email non valide
+    </span>
     <div class="col-sm-2 col-md-2 col-lg-2">
       <label>Duree</label>
       <input
@@ -39,6 +69,7 @@
         [(ngModel)]="currentChanson.duree"
         name="duree"
         class="form-control"
+        formControlName="duree"
       />
     </div>
     <div class="col-sm-2 col-md-2 col-lg-2">
@@ -48,6 +79,7 @@
         [(ngModel)]="currentChanson.vues"
         name="vues"
         class="form-control"
+        formControlName="vues"
       />
     </div>
     <div class="col-sm-4 col-md-4 col-lg-4">
@@ -57,6 +89,7 @@
         [(ngModel)]="currentChanson.dateSortie"
         name="dateSortie"
         class="form-control"
+        formControlName="dateSortie"
       />
     </div>
 
