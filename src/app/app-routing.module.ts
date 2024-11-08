@@ -6,15 +6,24 @@ import { UpdateChansonComponent } from './update-chanson/update-chanson.componen
 import { RechercheParGenreComponent } from './recherche-par-genre/recherche-par-genre.component';
 import { RechercheParNomComponent } from './recherche-par-nom/recherche-par-nom.component';
 import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { ChansonGuard } from './chanson.guard';
 
 const routes: Routes = [
   { path: 'chansons', component: ChansonsComponent },
-  { path: 'add-chanson', component: AddChansonComponent },
+  {
+    path: 'add-chanson',
+    component: AddChansonComponent,
+    canActivate: [ChansonGuard],
+  },
   { path: '', redirectTo: 'chansons', pathMatch: 'full' },
   { path: 'updateChanson/:id', component: UpdateChansonComponent },
   { path: 'rechercheParGenre', component: RechercheParGenreComponent },
   { path: 'rechercheParNom', component: RechercheParNomComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'app-forbidden', component: ForbiddenComponent },
 ];
 
 @NgModule({

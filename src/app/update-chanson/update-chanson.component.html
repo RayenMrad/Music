@@ -3,7 +3,7 @@
     <h2>Modifier une chanson :</h2>
   </div>
   <form (ngSubmit)="updateChanson()" [formGroup]="myForm">
-    <div class="col-sm-2 col-md-2 col-lg-2">
+    <div class="col-sm-4 col-md-4 col-lg-4">
       <label>ID chanson</label>
       <input
         readonly
@@ -14,6 +14,7 @@
         class="form-control"
       />
     </div>
+
     <div class="col-sm-4 col-md-4 col-lg-4">
       <label>Nom chanson</label>
       <input
@@ -24,7 +25,16 @@
         class="form-control"
       />
     </div>
-    <div class="col-sm-2 col-md-2 col-lg-2">
+    <span
+      *ngIf="
+        myForm.controls['nomChanson'].hasError('required') &&
+        myForm.controls['nomChanson'].touched
+      "
+      class="text-danger"
+    >
+      nom chanson est obligatoire
+    </span>
+    <div class="col-sm-4 col-md-4 col-lg-4">
       <label>Nom Artiste</label>
       <input
         type="text"
@@ -34,14 +44,23 @@
         class="form-control"
       />
     </div>
-    <div class="form-group">
+    <span
+      *ngIf="
+        myForm.controls['nomArtiste'].hasError('required') &&
+        myForm.controls['nomArtiste'].touched
+      "
+      class="text-danger"
+    >
+      nom artiste est obligatoire
+    </span>
+    <div class="col-sm-4 col-md-4 col-lg-4">
       <label>email :</label>
       <input
         type="text"
         name="email"
         class="form-control"
         formControlName="email"
-        [(ngModel)]="user.email"
+        [(ngModel)]="currentChanson.email"
       />
     </div>
     <span
@@ -62,7 +81,7 @@
     >
       email non valide
     </span>
-    <div class="col-sm-2 col-md-2 col-lg-2">
+    <div class="col-sm-4 col-md-4 col-lg-4">
       <label>Duree</label>
       <input
         type="text"
@@ -72,7 +91,16 @@
         formControlName="duree"
       />
     </div>
-    <div class="col-sm-2 col-md-2 col-lg-2">
+    <span
+      *ngIf="
+        myForm.controls['duree'].hasError('required') &&
+        myForm.controls['duree'].touched
+      "
+      class="text-danger"
+    >
+      duree est obligatoire
+    </span>
+    <div class="col-sm-4 col-md-4 col-lg-4">
       <label>Vues</label>
       <input
         type="text"
@@ -82,6 +110,15 @@
         formControlName="vues"
       />
     </div>
+    <span
+      *ngIf="
+        myForm.controls['vues'].hasError('required') &&
+        myForm.controls['vues'].touched
+      "
+      class="text-danger"
+    >
+      vues est obligatoire
+    </span>
     <div class="col-sm-4 col-md-4 col-lg-4">
       <label>Date Sortie</label>
       <input
@@ -96,12 +133,7 @@
     <div class="col-sm-4 col-md-4 col-lg-4">
       <label>Genre</label>
 
-      <select
-        class="form-control form-control-lg"
-        id="idCat"
-        name="idCat"
-        [(ngModel)]="updatedGenId"
-      >
+      <select class="form-control form-control-lg" id="idCat" name="idCat">
         <option *ngFor="let gen of genres" [value]="gen.idGen">
           {{ gen.nomGen }}
         </option>

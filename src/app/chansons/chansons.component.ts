@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { chanson } from '../model/chanson.model';
 import { chansonService } from '../services/chanson.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-chansons',
@@ -8,7 +9,10 @@ import { chansonService } from '../services/chanson.service';
 })
 export class ChansonsComponent implements OnInit {
   chansons: chanson[];
-  constructor(private chansonService: chansonService) {
+  constructor(
+    private chansonService: chansonService,
+    public authService: AuthService
+  ) {
     this.chansons = chansonService.listeChansons();
   }
   supprimerChanson(ch: chanson) {

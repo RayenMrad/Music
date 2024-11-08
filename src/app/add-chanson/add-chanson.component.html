@@ -3,7 +3,8 @@
     <h2>Ajouter une chanson :</h2>
   </div>
   <form [formGroup]="myForm">
-    <div>
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Id chanson</label>
       <input
         type="text"
         name="idChanson"
@@ -40,7 +41,7 @@
     >
       Nom chanson est obligatoire
     </span>
-    <div class="col-sm-2 col-md-2 col-lg-2">
+    <div class="col-sm-4 col-md-4 col-lg-4">
       <label>Nom Artiste</label>
       <input
         type="text"
@@ -59,14 +60,14 @@
     >
       Nom Artiste est obligatoire
     </span>
-    <div class="form-group">
+    <div class="form-group" class="col-sm-4 col-md-4 col-lg-4">
       <label>email :</label>
       <input
         type="text"
         name="email"
         class="form-control"
         formControlName="email"
-        [(ngModel)]="user.email"
+        [(ngModel)]="newchanson.email"
       />
     </div>
     <span
@@ -87,7 +88,7 @@
     >
       email non valide
     </span>
-    <div class="col-sm-2 col-md-2 col-lg-2">
+    <div class="col-sm-4 col-md-4 col-lg-4">
       <label>Duree</label>
       <input
         type="text"
@@ -106,7 +107,7 @@
     >
       Duree est obligatoire
     </span>
-    <div class="col-sm-2 col-md-2 col-lg-2">
+    <div class="col-sm-4 col-md-4 col-lg-4">
       <label>Vues</label>
       <input
         type="text"
@@ -160,7 +161,12 @@
     </div>
 
     <div class="mt-2">
-      <button type="submit" (click)="addchanson()" class="btn btn-success">
+      <button
+        type="submit"
+        (click)="addchanson()"
+        class="btn btn-success"
+        [disabled]="myForm.invalid"
+      >
         Ajouter
       </button>
       <div>

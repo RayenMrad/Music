@@ -14,6 +14,8 @@ import { RechercheParGenreComponent } from './recherche-par-genre/recherche-par-
 import { RechercheParNomComponent } from './recherche-par-nom/recherche-par-nom.component';
 import { SearchFilterPipe } from './search-filter.pipe';
 import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { RegisterComponent } from './register/register.component';
     RechercheParNomComponent,
     SearchFilterPipe,
     RegisterComponent,
+    LoginComponent,
+    ForbiddenComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule],
   providers: [provideClientHydration()],

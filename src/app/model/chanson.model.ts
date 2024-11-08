@@ -8,4 +8,5 @@ export class chanson {
   vues!: string;
   dateSortie!: Date;
   genre!: Genre;
+  email!: string;
 }

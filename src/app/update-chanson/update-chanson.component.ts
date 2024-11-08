@@ -4,7 +4,6 @@ import { chansonService } from '../services/chanson.service';
 import { chanson } from '../model/chanson.model';
 import { Genre } from '../model/genre.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { User } from '../model/user.model';
 
 @Component({
   selector: 'app-update-chanson',
@@ -14,9 +13,7 @@ import { User } from '../model/user.model';
 export class UpdateChansonComponent implements OnInit {
   currentChanson = new chanson();
   genres!: Genre[];
-  updatedGenId!: number;
   myForm!: FormGroup;
-  public user = new User();
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -26,36 +23,52 @@ export class UpdateChansonComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // Load genres list
     this.genres = this.chansonService.listeGenres();
-    // console.log(this.route.snapshot.params.id);
+
+    // Fetch the current chanson using route params
     this.currentChanson = this.chansonService.consulterChanson(
       this.activatedRoute.snapshot.params['id']
     );
-    //problem 1
-    this.updatedGenId = this.currentChanson.genre.idGen!;
 
+    // Initialize form with chanson data
     this.myForm = this.formBuilder.group({
-      idChanson: ['', [Validators.required]],
-      nomChanson: ['', [Validators.required]],
-      nomArtiste: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      duree: ['', [Validators.required]],
-      vues: ['', [Validators.required]],
-      dateSortie: ['', [Validators.required]],
-      idGen: [this.updatedGenId],
+      idChanson: [
+        this.currentChanson.idChanson,
+        [Validators.required, Validators.minLength(1)],
+      ],
+      nomChanson: [this.currentChanson.nomChanson, [Validators.required]],
+      nomArtiste: [this.currentChanson.nomArtiste, [Validators.required]],
+      email: [
+        this.currentChanson.email,
+        [Validators.required, Validators.email],
+      ],
+      duree: [this.currentChanson.duree, [Validators.required]],
+      vues: [
+        this.currentChanson.vues,
+        [Validators.required, Validators.min(1)],
+      ],
+      dateSortie: [this.currentChanson.dateSortie, [Validators.required]],
+      idGen: [this.currentChanson.genre.idGen, [Validators.required]],
     });
   }
+
   updateChanson() {
+    // Update currentChanson with form values
+    const updatedValues = this.myForm.value;
+    this.currentChanson.idChanson = updatedValues.idChanson;
+    this.currentChanson.nomChanson = updatedValues.nomChanson;
+    this.currentChanson.nomArtiste = updatedValues.nomArtiste;
+    this.currentChanson.email = updatedValues.email;
+    this.currentChanson.duree = updatedValues.duree;
+    this.currentChanson.vues = updatedValues.vues;
+    this.currentChanson.dateSortie = updatedValues.dateSortie;
     this.currentChanson.genre = this.chansonService.consulterGenre(
-      this.updatedGenId
+      updatedValues.idGen
     );
 
-    //console.log(this.currentChanson);
+    // Update chanson in the service and navigate
     this.chansonService.updateChanson(this.currentChanson);
     this.router.navigate(['chansons']);
-  }
-
-  OnRegister() {
-    console.log(this.user);
   }
 }

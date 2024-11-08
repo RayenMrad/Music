@@ -6,6 +6,7 @@
           <th>Id</th>
           <th>Nom Chanson</th>
           <th>Nom Artiste</th>
+          <th>Email</th>
           <th>Duree</th>
           <th>Vues</th>
           <th>Date Sortie</th>
@@ -16,17 +17,22 @@
             <td>{{ chanson.idChanson }}</td>
             <td>{{ chanson.nomChanson }}</td>
             <td>{{ chanson.nomArtiste }}</td>
+            <td>{{ chanson.email }}</td>
             <td>{{ chanson.duree }}</td>
             <td>{{ chanson.vues }}</td>
             <td>{{ chanson.dateSortie | date : "dd/MM/yyyy" }}</td>
             <td>{{ chanson.genre.nomGen }}</td>
             <td>
-              <a class="btn btn-danger" (click)="supprimerChanson(chanson)"
+              <a
+                *ngIf="authService.isAdmin()"
+                class="btn btn-danger"
+                (click)="supprimerChanson(chanson)"
                 >Supprimer</a
               >
             </td>
             <td>
               <a
+                *ngIf="authService.isAdmin()"
                 class="btn btn-success"
                 [routerLink]="['/updateChanson', chanson.idChanson]"
                 >Modifier</a
