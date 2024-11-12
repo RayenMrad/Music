@@ -37,7 +37,7 @@ export class UpdateChansonComponent implements OnInit {
       duree: ['', [Validators.required]],
       vues: ['', [Validators.required, Validators.min(1)]],
       dateSortie: ['', [Validators.required]],
-      idGen: ['', [Validators.required]],
+      genre: ['', [Validators.required]],
     });
 
     // Fetch the current chanson using route params
