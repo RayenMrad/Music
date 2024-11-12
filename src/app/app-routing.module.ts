@@ -9,6 +9,7 @@ import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { ChansonGuard } from './chanson.guard';
+import { ListeGenresComponent } from './liste-genres/liste-genres.component';
 
 const routes: Routes = [
   { path: 'chansons', component: ChansonsComponent },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'app-forbidden', component: ForbiddenComponent },
+  { path: 'listeGenres', component: ListeGenresComponent },
 ];
 
 @NgModule({

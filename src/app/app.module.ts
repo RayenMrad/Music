@@ -16,6 +16,8 @@ import { SearchFilterPipe } from './search-filter.pipe';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { ListeGenresComponent } from './liste-genres/liste-genres.component';
+import { UpdateGenreComponent } from './update-genre/update-genre.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
     RegisterComponent,
     LoginComponent,
     ForbiddenComponent,
+    ListeGenresComponent,
+    UpdateGenreComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule],
   providers: [provideClientHydration()],

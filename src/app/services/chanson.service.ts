@@ -150,4 +150,14 @@ export class chansonService {
     });
     return this.chansonsRecherche;
   }
+
+  ajouterGenre(genre: Genre): Genre {
+    const newId =
+      this.genres.length > 0
+        ? Math.max(...this.genres.map((gen) => gen.idGen ?? 0)) + 1
+        : 1;
+    genre.idGen = newId;
+    this.genres.push(genre);
+    return genre;
+  }
 }

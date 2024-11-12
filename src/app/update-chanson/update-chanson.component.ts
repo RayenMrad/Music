@@ -13,7 +13,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class UpdateChansonComponent implements OnInit {
   currentChanson = new chanson();
   genres!: Genre[];
+  updatedIdGen!: number;
   myForm!: FormGroup;
+  idGen!: number;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -26,48 +28,32 @@ export class UpdateChansonComponent implements OnInit {
     // Load genres list
     this.genres = this.chansonService.listeGenres();
 
+    // Initialize form with chanson data
+    this.myForm = this.formBuilder.group({
+      idChanson: ['', [Validators.required, Validators.minLength(1)]],
+      nomChanson: ['', [Validators.required]],
+      nomArtiste: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      duree: ['', [Validators.required]],
+      vues: ['', [Validators.required, Validators.min(1)]],
+      dateSortie: ['', [Validators.required]],
+      idGen: ['', [Validators.required]],
+    });
+
     // Fetch the current chanson using route params
     this.currentChanson = this.chansonService.consulterChanson(
       this.activatedRoute.snapshot.params['id']
     );
 
-    // Initialize form with chanson data
-    this.myForm = this.formBuilder.group({
-      idChanson: [
-        this.currentChanson.idChanson,
-        [Validators.required, Validators.minLength(1)],
-      ],
-      nomChanson: [this.currentChanson.nomChanson, [Validators.required]],
-      nomArtiste: [this.currentChanson.nomArtiste, [Validators.required]],
-      email: [
-        this.currentChanson.email,
-        [Validators.required, Validators.email],
-      ],
-      duree: [this.currentChanson.duree, [Validators.required]],
-      vues: [
-        this.currentChanson.vues,
-        [Validators.required, Validators.min(1)],
-      ],
-      dateSortie: [this.currentChanson.dateSortie, [Validators.required]],
-      idGen: [this.currentChanson.genre.idGen, [Validators.required]],
-    });
+    this.updatedIdGen = this.currentChanson.genre?.idGen ?? 0;
+    console.log(this.currentChanson);
   }
 
   updateChanson() {
-    // Update currentChanson with form values
-    const updatedValues = this.myForm.value;
-    this.currentChanson.idChanson = updatedValues.idChanson;
-    this.currentChanson.nomChanson = updatedValues.nomChanson;
-    this.currentChanson.nomArtiste = updatedValues.nomArtiste;
-    this.currentChanson.email = updatedValues.email;
-    this.currentChanson.duree = updatedValues.duree;
-    this.currentChanson.vues = updatedValues.vues;
-    this.currentChanson.dateSortie = updatedValues.dateSortie;
     this.currentChanson.genre = this.chansonService.consulterGenre(
-      updatedValues.idGen
+      this.updatedIdGen
     );
 
-    // Update chanson in the service and navigate
     this.chansonService.updateChanson(this.currentChanson);
     this.router.navigate(['chansons']);
   }
