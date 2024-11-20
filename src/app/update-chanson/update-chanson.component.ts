@@ -25,8 +25,10 @@ export class UpdateChansonComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Load genres list
-    this.genres = this.chansonService.listeGenres();
+    this.chansonService.listeGenres().subscribe((gens) => {
+      console.log(gens);
+      this.genres = gens._embedded.genres;
+    });
 
     // Initialize form with chanson data
     this.myForm = this.formBuilder.group({
@@ -40,21 +42,23 @@ export class UpdateChansonComponent implements OnInit {
       genre: ['', [Validators.required]],
     });
 
-    // Fetch the current chanson using route params
-    this.currentChanson = this.chansonService.consulterChanson(
-      this.activatedRoute.snapshot.params['id']
-    );
+    this.chansonService
+      .consulterChanson(this.activatedRoute.snapshot.params['id'])
+      .subscribe((chan) => {
+        this.currentChanson = chan;
+        this.updatedIdGen = this.currentChanson.genre.idGen!;
+      });
 
-    this.updatedIdGen = this.currentChanson.genre?.idGen ?? 0;
     console.log(this.currentChanson);
   }
 
   updateChanson() {
-    this.currentChanson.genre = this.chansonService.consulterGenre(
-      this.updatedIdGen
-    );
+    this.currentChanson.genre = this.genres.find(
+      (gen) => gen.idGen == this.updatedIdGen
+    )!;
 
-    this.chansonService.updateChanson(this.currentChanson);
-    this.router.navigate(['chansons']);
+    this.chansonService.updateChanson(this.currentChanson).subscribe((chan) => {
+      this.router.navigate(['chansons']);
+    });
   }
 }

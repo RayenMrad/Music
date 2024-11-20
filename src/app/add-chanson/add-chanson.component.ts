@@ -26,7 +26,11 @@ export class AddChansonComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.genres = this.chansonService.listeGenres();
+    this.chansonService.listeGenres().subscribe((gens) => {
+      console.log(gens);
+      this.genres = gens._embedded.genres;
+    });
+
     this.myForm = this.formBuilder.group({
       idChanson: ['', [Validators.required]],
       nomChanson: ['', [Validators.required]],
@@ -39,13 +43,14 @@ export class AddChansonComponent implements OnInit {
     });
   }
 
-  addchanson() {
-    console.log(this.newIdGen);
-    this.newGenre = this.chansonService.consulterGenre(this.newIdGen);
-    this.newchanson.genre = this.newGenre;
-    this.chansonService.ajouterchanson(this.newchanson);
-    //this.message =
-    // 'chanson ' + this.newchanson.nomChanson + ' ajouté avec succès !'; // Added spaces for readability
-    this.router.navigate(['chansons']);
+  addChanson() {
+    this.newchanson.genre = this.genres.find(
+      (gen) => gen.idGen == this.newIdGen
+    )!;
+
+    this.chansonService.ajouterChanson(this.newchanson).subscribe((chan) => {
+      console.log(chan);
+      this.router.navigate(['chansons']);
+    });
   }
 }

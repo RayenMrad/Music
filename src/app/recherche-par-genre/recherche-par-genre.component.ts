@@ -13,17 +13,27 @@ export class RechercheParGenreComponent implements OnInit {
   IdGenre!: number;
   constructor(private chansonService: chansonService) {}
   ngOnInit(): void {
-    this.genres = this.chansonService.listeGenres();
-    this.chansons = this.chansonService.listeChansons();
+    this.chansonService.listeGenres().subscribe((gens) => {
+      this.genres = gens._embedded.genres;
+      console.log(gens);
+    });
   }
   onChange() {
-    // console.log(this.IdCategorie);
-    this.chansons = this.chansonService.rechercherParGenre(this.IdGenre);
-    console.log(this.chansons);
+    this.chansonService.rechercherParGenre(this.IdGenre).subscribe((chans) => {
+      this.chansons = chans;
+    });
   }
+
   supprimerChanson(ch: chanson) {
-    //console.log(p);
     let conf = confirm('Etes-vous sûr ?');
-    if (conf) this.chansonService.supprimerChanson(ch);
+    if (conf) {
+      this.chansonService.supprimerChanson(ch.idChanson).subscribe(() => {
+        // Met à jour la liste des chansons après la suppression
+        this.chansons = this.chansons.filter(
+          (c) => c.idChanson !== ch.idChanson
+        );
+        console.log('Chanson supprimée');
+      });
+    }
   }
 }

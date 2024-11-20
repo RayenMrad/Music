@@ -24,13 +24,20 @@ export class ListeGenresComponent implements OnInit {
   }
 
   genreUpdated(genre: Genre) {
-    console.log('Équipe reçue du composant updatedequipe:', genre);
-    this.chansonService.ajouterGenre(genre);
+    if (this.ajout) {
+      this.chansonService.ajouterGenre(genre);
+    } else {
+      this.chansonService.mettreAJourGenre(genre);
+      this.ajout = true; // Réinitialise le mode d'ajout
+    }
     this.chargerGenres();
   }
 
   chargerGenres(): void {
-    this.genres = this.chansonService.listeGenres();
+    this.chansonService.listeGenres().subscribe((gens) => {
+      console.log(gens);
+      this.genres = gens._embedded.genres;
+    });
     console.log(this.genres);
   }
 

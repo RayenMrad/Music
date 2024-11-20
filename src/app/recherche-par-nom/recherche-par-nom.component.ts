@@ -15,15 +15,19 @@ export class RechercheParNomComponent implements OnInit {
   constructor(private chansonService: chansonService) {}
 
   ngOnInit(): void {
-    this.chansons = this.chansonService.listeChansons();
+    this.chansonService.listeChanson().subscribe((chans) => {
+      console.log(chans);
+      this.allChansons = chans;
+      this.chansons = chans; // Pour que le tableau soit affiché par défaut
+    });
   }
 
-  // rechercherChans() {
-  //   this.chansonService.rechercherParNom(this.nomChanson).subscribe((chans) => {
-  //     console.log(chans);
-  //     this.chansons = chans;
-  //   });
-  // }
+  rechercherChans() {
+    this.chansonService.rechercherParNom(this.nomChanson).subscribe((chans) => {
+      this.chansons = chans;
+      console.log(chans);
+    });
+  }
   onKeyUp(filterText: string) {
     this.chansons = this.allChansons.filter((item) =>
       item.nomChanson.toLowerCase().includes(filterText)

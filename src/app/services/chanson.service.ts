@@ -1,28 +1,37 @@
 import { Injectable } from '@angular/core';
 import { chanson } from '../model/chanson.model';
 import { Genre } from '../model/genre.model';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { GenreWrapper } from '../model/genreWrapped.model';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+};
 
 @Injectable({
   providedIn: 'root',
 })
 export class chansonService {
-  chansons: chanson[]; //un tableau de chanson
+  apiURL: string = 'http://localhost:5000/chansons/api';
+  apiURLGen: string = 'http://localhost:5000/chansons/gen';
+
+  chansons!: chanson[]; //un tableau de chanson
   chansonsRecherche!: chanson[];
-  genres: Genre[];
+  genres!: Genre[];
 
-  constructor() {
-    this.genres = [
-      { idGen: 1, nomGen: 'HipHop' },
-      { idGen: 2, nomGen: 'Pop' },
-      { idGen: 3, nomGen: 'Rap' },
-      { idGen: 4, nomGen: 'Rock' },
-      { idGen: 5, nomGen: 'Musique électronique	' },
-      { idGen: 6, nomGen: 'Jazz' },
-      { idGen: 7, nomGen: 'Chanson française	' },
-      { idGen: 8, nomGen: 'Autre' },
-    ];
-
-    this.chansons = [
+  constructor(private http: HttpClient) {
+    // this.genres = [
+    //   { idGen: 1, nomGen: 'HipHop' },
+    //   { idGen: 2, nomGen: 'Pop' },
+    //   { idGen: 3, nomGen: 'Rap' },
+    //   { idGen: 4, nomGen: 'Rock' },
+    //   { idGen: 5, nomGen: 'Musique électronique	' },
+    //   { idGen: 6, nomGen: 'Jazz' },
+    //   { idGen: 7, nomGen: 'Chanson française	' },
+    //   { idGen: 8, nomGen: 'Autre' },
+    // ];
+    /*this.chansons = [
       {
         idChanson: 1,
         nomChanson: 'UZI',
@@ -73,31 +82,25 @@ export class chansonService {
         dateSortie: new Date('05/14/2023'),
         genre: { idGen: 1, nomGen: 'HipHop' },
       },
-    ];
-  }
-  listeChansons(): chanson[] {
-    return this.chansons;
-  }
-  ajouterchanson(ch: chanson) {
-    this.chansons.push(ch);
+    ];*/
   }
 
-  supprimerChanson(ch: chanson) {
-    //supprimer le produit prod du tableau produits
-    const index = this.chansons.indexOf(ch, 0);
-    if (index > -1) {
-      this.chansons.splice(index, 1);
-    }
-    //ou Bien
-    /* this.produits.forEach((cur, index) => {
-      if(prod.idProduit === cur.idProduit) {
-      this.produits.splice(index, 1);
-      }
-      }); */
+  listeChanson(): Observable<chanson[]> {
+    return this.http.get<chanson[]>(this.apiURL);
   }
 
-  consulterChanson(id: number): chanson {
-    return this.chansons.find((p) => p.idChanson == id)!;
+  ajouterChanson(chan: chanson): Observable<chanson> {
+    return this.http.post<chanson>(this.apiURL, chan, httpOptions);
+  }
+
+  supprimerChanson(id: number) {
+    const url = `${this.apiURL}/${id}`;
+    return this.http.delete(url, httpOptions);
+  }
+
+  consulterChanson(id: number): Observable<chanson> {
+    const url = `${this.apiURL}/${id}`;
+    return this.http.get<chanson>(url);
   }
 
   trierChansons() {
@@ -112,43 +115,26 @@ export class chansonService {
     });
   }
 
-  updateChanson(ch: chanson) {
-    // console.log(ch);
-    this.supprimerChanson(ch);
-    this.ajouterchanson(ch);
-    this.trierChansons();
+  updateChanson(chan: chanson): Observable<chanson> {
+    return this.http.put<chanson>(this.apiURL, chan, httpOptions);
   }
 
-  listeGenres(): Genre[] {
-    return this.genres;
+  listeGenres(): Observable<GenreWrapper> {
+    return this.http.get<GenreWrapper>(this.apiURLGen);
   }
 
   consulterGenre(id: number): Genre {
     return this.genres.find((gen) => gen.idGen == id)!;
   }
 
-  rechercherParGenre(idGen: number): chanson[] {
-    this.chansonsRecherche = [];
-
-    this.chansons.forEach((cur, index) => {
-      if (idGen == cur.genre.idGen) {
-        console.log('cur ' + cur);
-        this.chansonsRecherche.push(cur);
-      }
-    });
-    return this.chansonsRecherche;
+  rechercherParGenre(idGen: number): Observable<chanson[]> {
+    const url = `${this.apiURL}/chansgen/${idGen}`;
+    return this.http.get<chanson[]>(url);
   }
 
-  rechercherParNom(nomChanson: string): chanson[] {
-    this.chansonsRecherche = [];
-
-    this.chansons.forEach((cur, index) => {
-      if (nomChanson == cur.nomChanson) {
-        console.log('cur ' + cur);
-        this.chansonsRecherche.push(cur);
-      }
-    });
-    return this.chansonsRecherche;
+  rechercherParNom(nom: string): Observable<chanson[]> {
+    const url = `${this.apiURL}/chansByName/${nom}`;
+    return this.http.get<chanson[]>(url);
   }
 
   ajouterGenre(genre: Genre): Genre {
@@ -159,5 +145,12 @@ export class chansonService {
     genre.idGen = newId;
     this.genres.push(genre);
     return genre;
+  }
+
+  mettreAJourGenre(genre: Genre): void {
+    const index = this.genres.findIndex((g) => g.idGen === genre.idGen);
+    if (index !== -1) {
+      this.genres[index] = genre;
+    }
   }
 }
